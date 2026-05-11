@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # --- SMART & SAFE .GITIGNORE FOR TARATARA PROJECT ---
 
 # [1. DEPENDENCIES] - Node modules are heavy and can be re-installed using 'npm install'
@@ -23,11 +24,16 @@ out/
 **/.env*
 
 # [4. LOGS & TEMPORARY FILES] - Useful for debugging but not for GitHub
+=======
+# Logs
+logs
+>>>>>>> ed1cab39d4bce7ddcf3cab7eb0b16074d2b5097d
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+<<<<<<< HEAD
 err.log
 output.txt
 .cache/
@@ -39,11 +45,25 @@ output.txt
 .vscode/
 !.vscode/extensions.json
 .idea/
+=======
+lerna-debug.log*
+
+node_modules
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+>>>>>>> ed1cab39d4bce7ddcf3cab7eb0b16074d2b5097d
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
 
 # [6. OPERATING SYSTEM FILES] - System-generated garbage
 .DS_Store
@@ -60,3 +80,5 @@ Backend/output.txt
 # [8. UPLOADS / ASSETS] - Ignore if these are user-uploaded files
 # uploads/
 # public/uploads/
+=======
+>>>>>>> ed1cab39d4bce7ddcf3cab7eb0b16074d2b5097d
