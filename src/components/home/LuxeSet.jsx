@@ -11,7 +11,7 @@ const LuxeSet = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/products?category=Luxe Sets');
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/products?category=Luxe Sets`);
         const data = await response.json();
         setProducts(data);
       } catch (error) {

@@ -11,7 +11,7 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/products/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`);
         const data = await response.json();
         setProduct(data);
       } catch (error) {

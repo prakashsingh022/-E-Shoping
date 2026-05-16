@@ -8,7 +8,7 @@ export default function OfferZone() {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/banners');
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/banners`);
         const data = await response.json();
         setBanners(data);
       } catch (error) {

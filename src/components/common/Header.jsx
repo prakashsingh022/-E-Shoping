@@ -12,7 +12,7 @@ export default function Header() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/categories');
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
         const data = await response.json();
         // Extract names and ensure "All Products" is handled if needed
         // but typically we'll just list what's in the DB and add "All Products"
