@@ -15,7 +15,7 @@ const CategoryPage = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const catRes = await fetch('http://localhost:5000/api/categories');
+        const catRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
         const categories = await catRes.json();
         
         let targetCategory = null;
@@ -23,7 +23,7 @@ const CategoryPage = () => {
           targetCategory = categories.find(c => c.name.toLowerCase().replace(/\s+/g, '-') === categoryId);
         }
 
-        let url = 'http://localhost:5000/api/products';
+        let url = `${import.meta.env.VITE_API_BASE_URL}/api/products`;
         if (targetCategory) {
           url += `?category=${encodeURIComponent(targetCategory.name)}`;
           setCategoryName(targetCategory.name);

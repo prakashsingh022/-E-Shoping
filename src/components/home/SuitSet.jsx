@@ -14,7 +14,7 @@ export default function SuitSet() {
       try {
         setLoading(true);
         // Fetch Section Title
-        const sectionRes = await fetch('http://localhost:5000/api/section');
+        const sectionRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/section`);
         const sections = await sectionRes.json();
         const currentSection = sections.find(s => s.slug === 'suit-set-edition');
         if (currentSection) {
@@ -22,7 +22,7 @@ export default function SuitSet() {
         }
 
         // Fetch Products by Section Slug
-        const productRes = await fetch('http://localhost:5000/api/products?section=suit-set-edition');
+        const productRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/products?section=suit-set-edition`);
         const productData = await productRes.json();
         setProducts(productData);
       } catch (error) {
