@@ -36,7 +36,7 @@ import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
 
-const socket = io('http://localhost:5000'); // Adjust for production
+const socket = io(import.meta.env.VITE_API_BASE_URL); // Use env var
 
 const StatCard = ({ title, value, change, trend, icon: Icon, color, loading }) => (
   <div className="card-premium p-6">

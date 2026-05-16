@@ -84,7 +84,7 @@ const EditProduct = () => {
         const [categoriesData, productData, sectionsData] = await Promise.all([
           getCategories(),
           getProductById(id),
-          fetch('http://localhost:5000/api/section').then(res => res.json())
+          fetch(`${import.meta.env.VITE_API_BASE_URL}/api/section`).then(res => res.json())
         ]);
         setCategories(categoriesData);
         setSections(sectionsData);

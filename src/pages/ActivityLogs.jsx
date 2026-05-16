@@ -16,7 +16,7 @@ import api from '../utils/api';
 import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+const socket = io(import.meta.env.VITE_API_BASE_URL);
 
 const ActivityLogs = () => {
   const [logs, setLogs] = useState([]);

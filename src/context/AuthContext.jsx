@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
         const parsedUser = JSON.parse(storedUser);
         try {
           // Verify token and get latest permissions/data
-          const { data } = await axios.get('http://localhost:5000/api/auth/me', {
+          const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/auth/me`, {
             headers: { Authorization: `Bearer ${parsedUser.token}` }
           });
           
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const { data } = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, { email, password });
       console.log('Login successful, user data:', data);
       setUser(data);
       localStorage.setItem('adminUser', JSON.stringify(data));
