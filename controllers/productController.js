@@ -15,6 +15,16 @@ const getProducts = async (req, res) => {
       query.category = category;
     }
 
+    if (sectionSlug) {
+      const section = await Section.findOne({ slug: sectionSlug });
+      if (section) {
+        query.section = section._id;
+      } else {
+        // If section slug is provided but not found, return empty array
+        return res.json([]);
+      }
+    }
+
     const products = await Product.find(query).sort({ createdAt: -1 });
     res.json(products);
   } catch (error) {
@@ -27,7 +37,7 @@ const getProducts = async (req, res) => {
 // @access  Public
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate('section');
 
     if (product) {
       res.json(product);
@@ -44,7 +54,7 @@ const getProductById = async (req, res) => {
 // @access  Private/Admin
 const createProduct = async (req, res) => {
   try {
-    const { name, price, salePrice, description, media, category, stock, sizes, colors, fabric, image } = req.body;
+    const { name, price, salePrice, description, media, category, stock, sizes, colors, fabric, image, section } = req.body;
 
     const product = await Product.create({
       name,
@@ -58,12 +68,13 @@ const createProduct = async (req, res) => {
       colors: colors || [],
       fabric,
       image: image || (media?.[0]?.url || null),
+      section: section || null,
     });
 
     await logActivity(
       req.admin._id,
       'CREATE_PRODUCT',
-      `Product: ${product.name} | Price: $${product.price} | Stock: ${product.stock}`,
+      `Product: ${product.name} | Price: ₹${product.price} | Stock: ${product.stock}`,
       req.ip
     );
 
@@ -78,7 +89,7 @@ const createProduct = async (req, res) => {
 // @access  Private/Admin
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, salePrice, description, media, category, stock, sizes, colors, fabric, image } = req.body;
+    const { name, price, salePrice, description, media, category, stock, sizes, colors, fabric, image, section } = req.body;
 
     const product = await Product.findById(req.params.id);
 
@@ -94,6 +105,7 @@ const updateProduct = async (req, res) => {
       product.sizes = sizes || product.sizes;
       product.colors = colors || product.colors;
       product.fabric = fabric || product.fabric;
+      product.section = section !== undefined ? section : product.section;
       
       // Sync image and media
       if (image) {
@@ -107,7 +119,7 @@ const updateProduct = async (req, res) => {
       await logActivity(
         req.admin._id,
         'UPDATE_PRODUCT',
-        `Product: ${oldName} -> ${updatedProduct.name} | Price: $${updatedProduct.price} | Stock: ${updatedProduct.stock}`,
+        `Product: ${oldName} -> ${updatedProduct.name} | Price: ₹${updatedProduct.price} | Stock: ${updatedProduct.stock}`,
         req.ip
       );
 
