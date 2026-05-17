@@ -53,7 +53,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user, hasPermission, isSuperAdmin }) =
       show: hasPermission('manage_products')
     },
     {
-      name: 'Suit Set Edition',
+      name: 'The Suit Set Edition',
       href: '/admin/suit-set-edition',
       icon: Layers,
       show: hasPermission('manage_products')
