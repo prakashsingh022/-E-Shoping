@@ -111,6 +111,7 @@ const SuitSetEditionManagement = () => {
     }));
   };
 
+
   const addColor = () => {
     if (!currentColor.name.trim()) {
       toast.error('Please enter a color name');
