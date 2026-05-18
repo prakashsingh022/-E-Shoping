@@ -6,7 +6,6 @@ import SuitSet from '../components/home/SuitSet';
 import LuxeSet from '../components/home/LuxeSet';
 import Features from '../components/home/Features';
 import HappyCustomers from '../components/home/HappyCustomers';
-import ProductDetails from '../components/product/ProductDetails';
 
 const Home = () => {
   return (
@@ -17,7 +16,6 @@ const Home = () => {
       <SuitSet />
       <LuxeSet />
       <Features />
-      <ProductDetails />
       <HappyCustomers />
     </>
   );

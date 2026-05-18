@@ -100,6 +100,16 @@ export default function ProductDetails({ product }) {
 
             {/* Selection */}
             <div className="space-y-8 pt-4">
+              {product.fabric && (
+                <div className="space-y-3 pt-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                  <span className="text-slate-950 font-bold text-sm uppercase tracking-widest block">Premium Fabric</span>
+                  <div className="inline-flex items-center gap-3 bg-slate-50 border border-slate-100 px-5 py-3 rounded-2xl">
+                    <span className="w-2.5 h-2.5 rounded-full bg-primary-gold animate-pulse"></span>
+                    <span className="text-slate-700 font-extrabold text-xs uppercase tracking-widest">{product.fabric}</span>
+                  </div>
+                </div>
+              )}
+
               {product.sizes && product.sizes.length > 0 && (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -170,12 +180,17 @@ export default function ProductDetails({ product }) {
             </div>
 
             {/* Actions */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
-              <button className="btn-premium py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-transform">
-                <ShoppingBag size={20} /> Add To Bag
-              </button>
-              <button className="px-8 py-5 bg-slate-100 text-slate-950 font-black rounded-2xl uppercase tracking-widest hover:bg-slate-200 transition-all active:scale-95 flex items-center justify-center gap-3">
-                <Share2 size={20} /> Share
+            <div className="space-y-4 pt-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button className="btn-premium py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-transform">
+                  <ShoppingBag size={20} /> Add To Bag
+                </button>
+                <button className="w-full py-5 bg-slate-950 hover:bg-slate-900 text-white font-black rounded-2xl uppercase tracking-widest transition-all active:scale-95 flex items-center justify-center gap-3 border border-slate-950 shadow-xl shadow-slate-950/10">
+                  Buy Now
+                </button>
+              </div>
+              <button className="w-full py-4 bg-slate-50 text-slate-900 font-bold rounded-2xl uppercase text-[10px] tracking-widest hover:bg-slate-100 transition-all active:scale-98 flex items-center justify-center gap-3 border border-slate-100/50">
+                <Share2 size={16} /> Share Product
               </button>
             </div>
 

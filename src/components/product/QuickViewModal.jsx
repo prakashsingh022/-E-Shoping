@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { X, ShoppingBag, Heart, Share2, Star, Play } from "lucide-react";
+import { Link } from "react-router-dom";
+import { X, ShoppingBag, Heart, Share2, Star, Play, ArrowRight } from "lucide-react";
 
 const QuickViewModal = ({ isOpen, onClose, product }) => {
   const [activeMedia, setActiveMedia] = useState(null);
@@ -116,6 +117,18 @@ const QuickViewModal = ({ isOpen, onClose, product }) => {
 
             {/* Selection */}
             <div className="space-y-6">
+
+              {/* Fabric */}
+              {product.fabric && (
+                <div className="space-y-2">
+                  <h3 className="text-[10px] font-black text-slate-950 uppercase tracking-[0.2em] px-1">Fabric</h3>
+                  <div className="inline-flex items-center gap-3 bg-slate-50 border border-slate-100 px-4 py-2.5 rounded-2xl">
+                    <span className="w-2 h-2 rounded-full bg-primary-gold animate-pulse flex-shrink-0"></span>
+                    <span className="text-slate-700 font-extrabold text-[11px] uppercase tracking-widest">{product.fabric}</span>
+                  </div>
+                </div>
+              )}
+
               {product.sizes && product.sizes.length > 0 && (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center px-1">
@@ -188,6 +201,16 @@ const QuickViewModal = ({ isOpen, onClose, product }) => {
             <p className="text-[10px] text-center text-slate-400 font-bold uppercase tracking-[0.3em] pt-4">
               Free Shipping & Returns on all orders
             </p>
+
+            <div className="pt-4 border-t border-slate-50/50 flex justify-center">
+              <Link
+                to={`/product/${product._id}`}
+                onClick={onClose}
+                className="text-xs font-black text-primary-gold uppercase tracking-widest flex items-center gap-2 hover:text-slate-950 transition-colors duration-300"
+              >
+                View Full Details <ArrowRight size={14} />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
