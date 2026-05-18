@@ -23,7 +23,7 @@ const QuickViewModal = ({ isOpen, onClose, product }) => {
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-slate-950/60 backdrop-blur-md transition-all animate-in fade-in duration-300">
       {/* Modal Content */}
       <div className="relative bg-white w-full max-w-6xl rounded-[40px] shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] animate-in zoom-in-95 duration-500">
-        
+
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -51,7 +51,7 @@ const QuickViewModal = ({ isOpen, onClose, product }) => {
                 className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
               />
             )}
-            
+
             {activeMedia?.type === 'video' && (
               <div className="absolute bottom-6 left-6 bg-white/20 backdrop-blur-md border border-white/40 px-4 py-2 rounded-full text-white text-[10px] font-black uppercase tracking-widest">
                 Immersive Preview
@@ -62,12 +62,11 @@ const QuickViewModal = ({ isOpen, onClose, product }) => {
           {/* Thumbnails Overlay */}
           <div className="p-4 bg-white/80 backdrop-blur-md border-t border-slate-100 flex gap-3 overflow-x-auto custom-scrollbar-hide">
             {product.media?.map((m, i) => (
-              <div 
+              <div
                 key={m._id || i}
                 onClick={() => setActiveMedia(m)}
-                className={`w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-2 transition-all flex-shrink-0 ${
-                  activeMedia?.url === m.url ? 'border-primary-gold scale-95' : 'border-transparent'
-                }`}
+                className={`w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-2 transition-all flex-shrink-0 ${activeMedia?.url === m.url ? 'border-primary-gold scale-95' : 'border-transparent'
+                  }`}
               >
                 {m.type === 'video' ? (
                   <div className="w-full h-full bg-slate-900 flex items-center justify-center relative">
@@ -96,11 +95,11 @@ const QuickViewModal = ({ isOpen, onClose, product }) => {
                 {product.name}
               </h2>
             </div>
-            
+
             <p className="text-slate-500 leading-relaxed font-medium text-sm sm:text-base">
               {product.description}
             </p>
-            
+
             <div className="flex items-center gap-4 py-4 border-y border-slate-50">
               <span className="text-3xl font-black text-slate-950">
                 ₹{price.toLocaleString()}
@@ -128,11 +127,10 @@ const QuickViewModal = ({ isOpen, onClose, product }) => {
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size)}
-                        className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center border-2 rounded-2xl font-black text-xs transition-all active:scale-95 ${
-                          selectedSize === size 
-                            ? 'bg-slate-950 text-white border-slate-950 shadow-xl scale-105' 
-                            : 'bg-white text-slate-900 border-slate-50 hover:border-slate-950'
-                        }`}
+                        className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center border-2 rounded-2xl font-black text-xs transition-all active:scale-95 ${selectedSize === size
+                          ? 'bg-slate-950 text-white border-slate-950 shadow-xl scale-105'
+                          : 'bg-white text-slate-900 border-slate-50 hover:border-slate-950'
+                          }`}
                       >
                         {size}
                       </button>
@@ -152,19 +150,17 @@ const QuickViewModal = ({ isOpen, onClose, product }) => {
                   <div className="flex flex-wrap gap-3">
                     {product.colors.map((color, idx) => (
                       <div key={idx} className="group flex flex-col items-center gap-2">
-                        <div 
+                        <div
                           onClick={() => setSelectedColor(color)}
-                          className={`w-8 h-8 rounded-full ring-offset-2 transition-all cursor-pointer ${
-                            selectedColor?.name === color.name 
-                              ? 'ring-2 ring-primary-gold scale-125' 
-                              : 'ring-1 ring-slate-100 ring-offset-slate-50 hover:scale-110'
-                          }`}
+                          className={`w-8 h-8 rounded-full ring-offset-2 transition-all cursor-pointer ${selectedColor?.name === color.name
+                            ? 'ring-2 ring-primary-gold scale-125'
+                            : 'ring-1 ring-slate-100 ring-offset-slate-50 hover:scale-110'
+                            }`}
                           style={{ backgroundColor: color.code }}
                           title={color.name}
                         />
-                        <span className={`text-[7px] font-black uppercase tracking-tighter transition-opacity ${
-                          selectedColor?.name === color.name ? 'text-primary-gold opacity-100' : 'text-slate-400 opacity-0 group-hover:opacity-100'
-                        }`}>
+                        <span className={`text-[7px] font-black uppercase tracking-tighter transition-opacity ${selectedColor?.name === color.name ? 'text-primary-gold opacity-100' : 'text-slate-400 opacity-0 group-hover:opacity-100'
+                          }`}>
                           {color.name}
                         </span>
                       </div>
