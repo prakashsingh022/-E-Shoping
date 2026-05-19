@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getVideos, addVideo, updateVideo, deleteVideo } from '../services/api';
+import { getVideos, addVideo, updateVideo, deleteVideo, getProducts } from '../services/api';
 import { 
   Edit, 
   Trash2, 
@@ -16,6 +16,7 @@ import MediaPicker from '../components/MediaPicker';
 
 const VideoManagement = () => {
   const [videos, setVideos] = useState([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showMediaPicker, setShowMediaPicker] = useState(false);
@@ -29,6 +30,7 @@ const VideoManagement = () => {
     stock: 100,
     videoUrl: '',
     thumbnail: '',
+    productId: '',
   });
 
   useEffect(() => {
@@ -40,8 +42,10 @@ const VideoManagement = () => {
       setLoading(true);
       const vData = await getVideos();
       setVideos(vData);
+      const pData = await getProducts();
+      setProducts(pData);
     } catch (error) {
-      toast.error('Failed to fetch videos');
+      toast.error('Failed to fetch data');
     } finally {
       setLoading(false);
     }
@@ -80,6 +84,7 @@ const VideoManagement = () => {
       stock: 100,
       videoUrl: '', 
       thumbnail: '', 
+      productId: '',
     });
     setEditingId(null);
   };
@@ -91,6 +96,7 @@ const VideoManagement = () => {
       stock: video.stock || 100,
       videoUrl: video.videoUrl,
       thumbnail: video.thumbnail || '',
+      productId: video.productId?._id || video.productId || '',
     });
     setEditingId(video._id);
     setShowModal(true);
@@ -336,6 +342,22 @@ const VideoManagement = () => {
                         className="w-full px-6 py-5 bg-surface-50 border border-surface-200 rounded-[24px] text-sm focus:border-primary-500 focus:ring-4 focus:ring-primary-500/5 transition-all outline-none font-medium text-surface-700 shadow-sm resize-none leading-relaxed"
                         placeholder="Tell the story of this product look..."
                       />
+                    </div>
+
+                    <div>
+                      <label className="text-[10px] font-black text-surface-400 uppercase tracking-[0.2em] mb-2.5 block pl-1">Linked Catalog Product</label>
+                      <select
+                        value={formData.productId}
+                        onChange={(e) => setFormData({ ...formData, productId: e.target.value })}
+                        className="w-full px-6 py-4.5 bg-surface-50 border border-surface-200 rounded-[20px] text-sm focus:border-primary-500 focus:ring-4 focus:ring-primary-500/5 transition-all outline-none font-bold text-surface-900 shadow-sm"
+                      >
+                        <option value="">-- None / Select Product --</option>
+                        {products.map((prod) => (
+                          <option key={prod._id} value={prod._id}>
+                            {prod.name} (₹{prod.price})
+                          </option>
+                        ))}
+                      </select>
                     </div>
                  </div>
               </div>

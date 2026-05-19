@@ -43,6 +43,141 @@ const SuitSetEditionManagement = () => {
   // For Sizes UI
   const availableSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL', 'Free Size', 'Custom'];
 
+  // Color Dictionary & Resolution Helpers
+  const COLOR_NAMES_DICT = {
+    "#000000": "Black",
+    "#ffffff": "White",
+    "#ff0000": "Red",
+    "#00ff00": "Lime",
+    "#0000ff": "Blue",
+    "#ffff00": "Yellow",
+    "#00ffff": "Cyan",
+    "#ff00ff": "Magenta",
+    "#c0c0c0": "Silver",
+    "#808080": "Gray",
+    "#800000": "Maroon",
+    "#808000": "Olive",
+    "#008000": "Green",
+    "#800080": "Purple",
+    "#008080": "Teal",
+    "#000080": "Navy",
+    "#ffa500": "Orange",
+    "#ffc0cb": "Pink",
+    "#4b0082": "Indigo",
+    "#ee82ee": "Violet",
+    "#ffd700": "Gold",
+    "#f5f5dc": "Beige",
+    "#a52a2a": "Brown",
+    "#40e0d0": "Turquoise",
+    "#e6e6fa": "Lavender",
+    "#fa8072": "Salmon",
+    "#ff7f50": "Coral",
+    "#ffe4c4": "Bisque",
+    "#ffdab9": "Peach",
+    "#d2b48c": "Tan",
+    "#8b4513": "Saddle Brown",
+    "#228b22": "Forest Green",
+    "#1e90ff": "Dodger Blue",
+    "#4682b4": "Steel Blue",
+    "#00bfff": "Deep Sky Blue",
+    "#6a5acd": "Slate Blue",
+    "#708090": "Slate Gray",
+    "#800020": "Burgundy",
+    "#da70d6": "Orchid",
+    "#d8bfd8": "Thistle",
+    "#ff007f": "Rose",
+    "#e0b0ff": "Mauve",
+    "#ff7f00": "Neon Orange",
+    "#bfff00": "Lime Green",
+    "#c5a059": "Mustard Gold",
+    "#30b3a8": "Teal Blue",
+    "#f0e68c": "Khaki",
+    "#e6ccb2": "Nude",
+    "#b38b6d": "Taupe",
+    "#d8a47f": "Terracotta",
+    "#7a1f1d": "Crimson",
+    "#5c0632": "Plum",
+    "#3b1301": "Chocolate",
+    "#a0522d": "Sienna",
+    "#8fbc8f": "Sage Green",
+    "#2e8b57": "Sea Green",
+    "#00a86b": "Jade",
+    "#f4f0ec": "Ivory",
+    "#eae0d5": "Alabaster",
+    "#6c757d": "Charcoal",
+    "#1c2541": "Midnight Blue",
+    "#3a506b": "Steel",
+    "#00ffff": "Aqua"
+  };
+
+  const hexToRgb = (hex) => {
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    const fullHex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(fullHex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  };
+
+  const getClosestColorName = (hex) => {
+    const targetRgb = hexToRgb(hex);
+    if (!targetRgb) return "";
+    
+    let minDistance = Infinity;
+    let closestName = "";
+    
+    for (const [key, value] of Object.entries(COLOR_NAMES_DICT)) {
+      const currRgb = hexToRgb(key);
+      if (!currRgb) continue;
+      
+      const distance = Math.sqrt(
+        Math.pow(targetRgb.r - currRgb.r, 2) +
+        Math.pow(targetRgb.g - currRgb.g, 2) +
+        Math.pow(targetRgb.b - currRgb.b, 2)
+      );
+      
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestName = value;
+      }
+    }
+    
+    return closestName;
+  };
+
+  const handleColorNameChange = (nameValue) => {
+    setCurrentColor(prev => {
+      const next = { ...prev, name: nameValue };
+      const tempElem = document.createElement("div");
+      tempElem.style.color = nameValue.trim().toLowerCase();
+      document.body.appendChild(tempElem);
+      const resolvedColor = window.getComputedStyle(tempElem).color;
+      document.body.removeChild(tempElem);
+      
+      const isBlack = ["black", "#000", "#000000", "rgb(0, 0, 0)"].includes(nameValue.trim().toLowerCase());
+      const match = resolvedColor.match(/\d+/g);
+      
+      if (match && match.length >= 3) {
+        const r = parseInt(match[0], 10);
+        const g = parseInt(match[1], 10);
+        const b = parseInt(match[2], 10);
+        const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        
+        if (hex !== "#000000" || isBlack) {
+          next.code = hex;
+        }
+      }
+      return next;
+    });
+  };
+
+  const handleColorPickerChange = (codeValue) => {
+    const name = getClosestColorName(codeValue);
+    setCurrentColor({ name, code: codeValue });
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -71,11 +206,13 @@ const SuitSetEditionManagement = () => {
   };
 
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
 
     const uploadData = new FormData();
-    uploadData.append('files', file);
+    files.forEach(file => {
+      uploadData.append('files', file);
+    });
 
     try {
       setUploading(true);
@@ -84,16 +221,21 @@ const SuitSetEditionManagement = () => {
       });
 
       if (data && data.length > 0) {
-        setFormData({
-          ...formData,
-          image: data[0].url,
-          media: [{
-            url: data[0].url,
-            public_id: data[0].public_id,
-            type: 'image'
-          }]
+        const newMedia = data.map(item => ({
+          url: item.url,
+          public_id: item.public_id,
+          type: item.type || 'image'
+        }));
+
+        setFormData(prev => {
+          const updatedMedia = [...prev.media, ...newMedia];
+          return {
+            ...prev,
+            image: updatedMedia[0]?.url || '',
+            media: updatedMedia
+          };
         });
-        toast.success('Image uploaded successfully');
+        toast.success(`${data.length} photo(s) uploaded successfully`);
       }
     } catch (error) {
       toast.error('Upload failed');
@@ -393,9 +535,9 @@ const SuitSetEditionManagement = () => {
                   </div>
                   <div className="flex items-end gap-2 p-3 bg-surface-50 rounded-xl border border-surface-200/50">
                     <div className="flex-grow">
-                      <input type="text" value={currentColor.name} onChange={(e) => setCurrentColor(prev => ({ ...prev, name: e.target.value }))} className="w-full px-3 py-2 bg-white border border-surface-200 rounded-lg text-[10px] focus:border-primary-500 outline-none" placeholder="Color Name" />
+                      <input type="text" value={currentColor.name} onChange={(e) => handleColorNameChange(e.target.value)} className="w-full px-3 py-2 bg-white border border-surface-200 rounded-lg text-[10px] focus:border-primary-500 outline-none" placeholder="Color Name" />
                     </div>
-                    <input type="color" value={currentColor.code} onChange={(e) => setCurrentColor(prev => ({ ...prev, code: e.target.value }))} className="w-8 h-8 p-0 border-none bg-transparent cursor-pointer rounded-lg overflow-hidden" />
+                    <input type="color" value={currentColor.code} onChange={(e) => handleColorPickerChange(e.target.value)} className="w-8 h-8 p-0 border-none bg-transparent cursor-pointer rounded-lg overflow-hidden" />
                     <button type="button" onClick={addColor} className="p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-all">
                       <Plus size={16} />
                     </button>
@@ -404,31 +546,47 @@ const SuitSetEditionManagement = () => {
               </div>
 
               <div>
-                <label className="text-xs font-bold text-surface-400 uppercase tracking-widest mb-2 block pl-1">Product Image</label>
-                <div className="flex gap-4 items-start">
-                  <div className="w-32 h-32 rounded-2xl border-2 border-dashed border-surface-200 bg-surface-50 overflow-hidden flex items-center justify-center relative group">
-                    {formData.image ? (
-                      <img src={formData.image} className="w-full h-full object-cover" alt="" />
-                    ) : (
-                      <Upload size={24} className="text-surface-300" />
-                    )}
-                    {uploading && (
-                      <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
-                        <Loader2 className="animate-spin text-primary-600" size={20} />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 space-y-3">
-                    <p className="text-[10px] text-surface-400 leading-relaxed font-medium">
-                      Upload a high-quality product image (JPG, PNG). This image will be shown on the homepage section.
-                    </p>
-                    <label className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-surface-200 rounded-xl text-xs font-bold text-surface-700 cursor-pointer hover:bg-surface-50 transition-all shadow-sm">
-                      <Upload size={14} />
-                      {formData.image ? 'Change Image' : 'Select File'}
-                      <input type="file" className="hidden" onChange={handleFileUpload} accept="image/*" />
+                <label className="text-xs font-bold text-surface-400 uppercase tracking-widest mb-2 block pl-1">
+                  Product Gallery (Upload at least 4 photos)
+                </label>
+                <div className="grid grid-cols-4 gap-3">
+                  {formData.media.map((m, index) => (
+                    <div key={index} className="relative aspect-square rounded-2xl overflow-hidden border border-surface-200 bg-surface-50 group">
+                      <img src={m.url} className="w-full h-full object-cover" alt="" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updatedMedia = formData.media.filter((_, i) => i !== index);
+                          setFormData({
+                            ...formData,
+                            image: updatedMedia[0]?.url || '',
+                            media: updatedMedia
+                          });
+                        }}
+                        className="absolute top-1.5 right-1.5 p-1 bg-red-500 hover:bg-red-600 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                  
+                  {uploading ? (
+                    <div className="aspect-square rounded-2xl border-2 border-dashed border-surface-200 bg-surface-50 flex items-center justify-center">
+                      <Loader2 className="animate-spin text-primary-600" size={20} />
+                    </div>
+                  ) : (
+                    <label className="aspect-square rounded-2xl border-2 border-dashed border-surface-200 flex flex-col items-center justify-center gap-1.5 text-surface-400 hover:border-primary-400 hover:bg-primary-50/10 cursor-pointer transition-all">
+                      <Plus size={20} />
+                      <span className="text-[8px] font-bold uppercase tracking-wider">Add Photo</span>
+                      <input type="file" multiple className="hidden" onChange={handleFileUpload} accept="image/*" />
                     </label>
-                  </div>
+                  )}
                 </div>
+                {formData.media.length > 0 && formData.media.length < 4 && (
+                  <p className="text-[10px] text-amber-500 font-bold tracking-wide mt-2">
+                    💡 Uploaded {formData.media.length}/4. Please upload at least 4 photos for a premium experience.
+                  </p>
+                )}
               </div>
 
               <div className="pt-4 flex gap-3">

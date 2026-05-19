@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const storedUser = localStorage.getItem('adminUser');
+      const storedUser = sessionStorage.getItem('adminUser');
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
         try {
@@ -22,10 +22,10 @@ export const AuthProvider = ({ children }) => {
           
           const freshUser = { ...data, token: parsedUser.token };
           setUser(freshUser);
-          localStorage.setItem('adminUser', JSON.stringify(freshUser));
+          sessionStorage.setItem('adminUser', JSON.stringify(freshUser));
         } catch (error) {
           console.error('Session expired or invalid:', error.message);
-          localStorage.removeItem('adminUser');
+          sessionStorage.removeItem('adminUser');
           setUser(null);
         }
       }
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
       const { data } = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, { email, password });
       console.log('Login successful, user data:', data);
       setUser(data);
-      localStorage.setItem('adminUser', JSON.stringify(data));
+      sessionStorage.setItem('adminUser', JSON.stringify(data));
       return { success: true };
     } catch (error) {
       return {
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('adminUser');
+    sessionStorage.removeItem('adminUser');
   };
 
   const hasPermission = (permission) => {

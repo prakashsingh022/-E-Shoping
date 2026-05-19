@@ -8,7 +8,7 @@ export const api = axios.create({
 
 // Configure with credentials or token if needed
 api.interceptors.request.use((config) => {
-  const storedUser = localStorage.getItem('adminUser');
+  const storedUser = sessionStorage.getItem('adminUser');
   if (storedUser) {
     const user = JSON.parse(storedUser);
     if (user.token) {
