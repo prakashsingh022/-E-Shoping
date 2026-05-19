@@ -25,8 +25,8 @@ const OrderList = () => {
     }
   };
 
-  const filteredOrders = orders.filter(o => 
-    o._id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredOrders = orders.filter(o =>
+    o._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (o.user?.name || 'Guest').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -52,9 +52,9 @@ const OrderList = () => {
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400" size={18} />
-          <input 
-            type="text" 
-            placeholder="Search by order ID or customer..." 
+          <input
+            type="text"
+            placeholder="Search by order ID or customer..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-surface-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all shadow-sm"
@@ -114,13 +114,12 @@ const OrderList = () => {
                     <span className="text-xs text-surface-600 bg-surface-100 px-2 py-1 rounded-md border border-surface-200">{order.paymentMethod}</span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-sm border ${
-                      order.status === 'Delivered' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 
-                      order.status === 'Pending' ? 'bg-orange-50 text-orange-700 border-orange-100' : 
-                      order.status === 'Shipped' ? 'bg-blue-50 text-blue-700 border-blue-100' : 
-                      order.status === 'Cancelled' ? 'bg-red-50 text-red-700 border-red-100' :
-                      'bg-surface-50 text-surface-600 border-surface-100'
-                    }`}>
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-sm border ${order.status === 'Delivered' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
+                      order.status === 'Pending' ? 'bg-orange-50 text-orange-700 border-orange-100' :
+                        order.status === 'Shipped' ? 'bg-blue-50 text-blue-700 border-blue-100' :
+                          order.status === 'Cancelled' ? 'bg-red-50 text-red-700 border-red-100' :
+                            'bg-surface-50 text-surface-600 border-surface-100'
+                      }`}>
                       {order.status}
                     </span>
                   </td>
@@ -143,8 +142,8 @@ const OrderList = () => {
           <div className="p-4 border-t border-surface-100 flex items-center justify-between">
             <span className="text-sm text-surface-500">Showing {filteredOrders.length} orders</span>
             <div className="flex gap-2">
-                <button className="px-3 py-1 bg-white border border-surface-200 rounded-lg text-sm text-surface-400 cursor-not-allowed">Previous</button>
-                <button className="px-3 py-1 bg-white border border-surface-200 rounded-lg text-sm text-surface-700 hover:bg-surface-50">Next</button>
+              <button className="px-3 py-1 bg-white border border-surface-200 rounded-lg text-sm text-surface-400 cursor-not-allowed">Previous</button>
+              <button className="px-3 py-1 bg-white border border-surface-200 rounded-lg text-sm text-surface-700 hover:bg-surface-50">Next</button>
             </div>
           </div>
         )}

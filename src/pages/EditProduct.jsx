@@ -122,26 +122,26 @@ const EditProduct = () => {
   const getClosestColorName = (hex) => {
     const targetRgb = hexToRgb(hex);
     if (!targetRgb) return "";
-    
+
     let minDistance = Infinity;
     let closestName = "";
-    
+
     for (const [key, value] of Object.entries(COLOR_NAMES_DICT)) {
       const currRgb = hexToRgb(key);
       if (!currRgb) continue;
-      
+
       const distance = Math.sqrt(
         Math.pow(targetRgb.r - currRgb.r, 2) +
         Math.pow(targetRgb.g - currRgb.g, 2) +
         Math.pow(targetRgb.b - currRgb.b, 2)
       );
-      
+
       if (distance < minDistance) {
         minDistance = distance;
         closestName = value;
       }
     }
-    
+
     return closestName;
   };
 
@@ -153,16 +153,16 @@ const EditProduct = () => {
       document.body.appendChild(tempElem);
       const resolvedColor = window.getComputedStyle(tempElem).color;
       document.body.removeChild(tempElem);
-      
+
       const isBlack = ["black", "#000", "#000000", "rgb(0, 0, 0)"].includes(nameValue.trim().toLowerCase());
       const match = resolvedColor.match(/\d+/g);
-      
+
       if (match && match.length >= 3) {
         const r = parseInt(match[0], 10);
         const g = parseInt(match[1], 10);
         const b = parseInt(match[2], 10);
         const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-        
+
         if (hex !== "#000000" || isBlack) {
           next.code = hex;
         }
@@ -180,11 +180,11 @@ const EditProduct = () => {
 
   // For Sizes UI
   const availableSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL', 'Free Size', 'Custom'];
-  
+
   const handleSizeToggle = (size) => {
     setFormData(prev => ({
       ...prev,
-      sizes: prev.sizes.includes(size) 
+      sizes: prev.sizes.includes(size)
         ? prev.sizes.filter(s => s !== size)
         : [...prev.sizes, size]
     }));
@@ -213,36 +213,36 @@ const EditProduct = () => {
     fetchInitialData();
   }, [id]);
 
-    const fetchInitialData = async () => {
-      try {
-        setFetching(true);
-        const [categoriesData, productData, sectionsData] = await Promise.all([
-          getCategories(),
-          getProductById(id),
-          fetch(`${import.meta.env.VITE_API_BASE_URL}/api/section`).then(res => res.json())
-        ]);
-        setCategories(categoriesData);
-        setSections(sectionsData);
-        setFormData({
-          name: productData.name || '',
-          price: productData.price || '',
-          salePrice: productData.salePrice || '',
-          media: productData.media || [],
-          category: productData.category || '',
-          description: productData.description || '',
-          stock: productData.stock || '',
-          sizes: productData.sizes || [],
-          colors: productData.colors || [],
-          fabric: productData.fabric || '',
-          section: productData.section?._id || productData.section || '',
-        });
-      } catch (error) {
-        toast.error('Failed to fetch product details');
-        navigate('/admin/products');
-      } finally {
-        setFetching(false);
-      }
-    };
+  const fetchInitialData = async () => {
+    try {
+      setFetching(true);
+      const [categoriesData, productData, sectionsData] = await Promise.all([
+        getCategories(),
+        getProductById(id),
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/api/section`).then(res => res.json())
+      ]);
+      setCategories(categoriesData);
+      setSections(sectionsData);
+      setFormData({
+        name: productData.name || '',
+        price: productData.price || '',
+        salePrice: productData.salePrice || '',
+        media: productData.media || [],
+        category: productData.category || '',
+        description: productData.description || '',
+        stock: productData.stock || '',
+        sizes: productData.sizes || [],
+        colors: productData.colors || [],
+        fabric: productData.fabric || '',
+        section: productData.section?._id || productData.section || '',
+      });
+    } catch (error) {
+      toast.error('Failed to fetch product details');
+      navigate('/admin/products');
+    } finally {
+      setFetching(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -365,7 +365,7 @@ const EditProduct = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="pt-4 border-t border-surface-100 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <label className="text-xs font-bold text-surface-400 uppercase tracking-widest pl-1 mb-3 block">Available Sizes</label>
@@ -375,11 +375,10 @@ const EditProduct = () => {
                       key={size}
                       type="button"
                       onClick={() => handleSizeToggle(size)}
-                      className={`px-4 py-2 rounded-xl text-sm font-bold border transition-all ${
-                        formData.sizes.includes(size)
+                      className={`px-4 py-2 rounded-xl text-sm font-bold border transition-all ${formData.sizes.includes(size)
                           ? 'bg-primary-600 text-white border-primary-600 shadow-md'
                           : 'bg-surface-50 text-surface-600 border-surface-200 hover:border-primary-300 hover:bg-primary-50'
-                      }`}
+                        }`}
                     >
                       {size}
                     </button>
@@ -394,8 +393,8 @@ const EditProduct = () => {
                     <div key={index} className="flex items-center gap-2 bg-surface-50 border border-surface-200 pl-2 pr-1 py-1 rounded-xl group hover:border-primary-300 transition-all">
                       <div className="w-5 h-5 rounded-lg shadow-sm" style={{ backgroundColor: color.code }}></div>
                       <span className="text-xs font-bold text-surface-700">{color.name}</span>
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => removeColor(index)}
                         className="p-1 hover:bg-red-50 text-surface-400 hover:text-red-500 rounded-lg transition-colors"
                       >
@@ -404,12 +403,12 @@ const EditProduct = () => {
                     </div>
                   ))}
                 </div>
-                
+
                 <div className="flex items-end gap-3 p-4 bg-surface-50 rounded-2xl border border-surface-200/50">
                   <div className="flex-grow">
                     <label className="text-[10px] font-black text-surface-400 uppercase tracking-widest mb-1.5 block">Color Name</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={currentColor.name}
                       onChange={(e) => handleColorNameChange(e.target.value)}
                       className="w-full px-3 py-2 bg-white border border-surface-200 rounded-xl text-xs focus:border-primary-500 transition-all"
@@ -418,14 +417,14 @@ const EditProduct = () => {
                   </div>
                   <div>
                     <label className="text-[10px] font-black text-surface-400 uppercase tracking-widest mb-1.5 block">Picker</label>
-                    <input 
-                      type="color" 
+                    <input
+                      type="color"
                       value={currentColor.code}
                       onChange={(e) => handleColorPickerChange(e.target.value)}
                       className="w-10 h-10 p-0 border-none bg-transparent cursor-pointer rounded-xl overflow-hidden block"
                     />
                   </div>
-                  <button 
+                  <button
                     type="button"
                     onClick={addColor}
                     className="p-2.5 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-all shadow-md active:scale-95"

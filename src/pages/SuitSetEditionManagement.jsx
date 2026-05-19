@@ -124,26 +124,26 @@ const SuitSetEditionManagement = () => {
   const getClosestColorName = (hex) => {
     const targetRgb = hexToRgb(hex);
     if (!targetRgb) return "";
-    
+
     let minDistance = Infinity;
     let closestName = "";
-    
+
     for (const [key, value] of Object.entries(COLOR_NAMES_DICT)) {
       const currRgb = hexToRgb(key);
       if (!currRgb) continue;
-      
+
       const distance = Math.sqrt(
         Math.pow(targetRgb.r - currRgb.r, 2) +
         Math.pow(targetRgb.g - currRgb.g, 2) +
         Math.pow(targetRgb.b - currRgb.b, 2)
       );
-      
+
       if (distance < minDistance) {
         minDistance = distance;
         closestName = value;
       }
     }
-    
+
     return closestName;
   };
 
@@ -155,16 +155,16 @@ const SuitSetEditionManagement = () => {
       document.body.appendChild(tempElem);
       const resolvedColor = window.getComputedStyle(tempElem).color;
       document.body.removeChild(tempElem);
-      
+
       const isBlack = ["black", "#000", "#000000", "rgb(0, 0, 0)"].includes(nameValue.trim().toLowerCase());
       const match = resolvedColor.match(/\d+/g);
-      
+
       if (match && match.length >= 3) {
         const r = parseInt(match[0], 10);
         const g = parseInt(match[1], 10);
         const b = parseInt(match[2], 10);
         const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-        
+
         if (hex !== "#000000" || isBlack) {
           next.code = hex;
         }
@@ -569,7 +569,7 @@ const SuitSetEditionManagement = () => {
                       </button>
                     </div>
                   ))}
-                  
+
                   {uploading ? (
                     <div className="aspect-square rounded-2xl border-2 border-dashed border-surface-200 bg-surface-50 flex items-center justify-center">
                       <Loader2 className="animate-spin text-primary-600" size={20} />
