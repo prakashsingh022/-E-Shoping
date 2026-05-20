@@ -2,18 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { X, ShoppingBag, Heart, Share2, Star, Play, ArrowRight } from "lucide-react";
 
-const QuickViewModal = ({ isOpen, onClose, product }) => {
+const QuickViewModal = ({ isOpen, onClose, product, fallbackVideo }) => {
   const [activeMedia, setActiveMedia] = useState(null);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState(null);
 
   useEffect(() => {
-    if (product && product.media && product.media.length > 0) {
-      setActiveMedia(product.media[0]);
+    if (product) {
+      let mediaList = [...(product.media || [])];
+      if (fallbackVideo && !mediaList.some(m => m.url === fallbackVideo)) {
+        mediaList.unshift({
+          url: fallbackVideo,
+          type: 'video',
+          public_id: 'visual-shop-video'
+        });
+      }
+      product.mediaList = mediaList;
+      setActiveMedia(mediaList[0] || null);
     }
     setSelectedSize('');
     setSelectedColor(null);
-  }, [product]);
+  }, [product, fallbackVideo]);
 
   if (!isOpen || !product) return null;
 
@@ -62,7 +71,7 @@ const QuickViewModal = ({ isOpen, onClose, product }) => {
 
           {/* Thumbnails Overlay */}
           <div className="p-4 bg-white/80 backdrop-blur-md border-t border-slate-100 flex gap-3 overflow-x-auto custom-scrollbar-hide">
-            {product.media?.map((m, i) => (
+            {(product.mediaList || product.media || []).map((m, i) => (
               <div
                 key={m._id || i}
                 onClick={() => setActiveMedia(m)}

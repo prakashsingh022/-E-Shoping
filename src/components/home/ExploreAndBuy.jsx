@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
-import { ArrowLeft, ArrowRight, Eye, Play, ShoppingBag, Heart } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, Play, Pause, ShoppingBag, Heart } from "lucide-react";
 import QuickViewModal from "../product/QuickViewModal";
 
 // Custom Arrows
@@ -28,6 +29,8 @@ function NextArrow({ onClick }) {
 
 // Card Component
 function VideoCard({ item, onClick }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+
   return (
     <div className="px-3 pb-8">
       <div
@@ -55,17 +58,25 @@ function VideoCard({ item, onClick }) {
           playsInline
           crossOrigin="anonymous"
           preload="auto"
-          onMouseOver={(e) => e.target.play()}
+          onMouseOver={(e) => {
+            e.target.play();
+            setIsPlaying(true);
+          }}
           onMouseOut={(e) => {
             e.target.pause();
             e.target.currentTime = 0;
+            setIsPlaying(false);
           }}
         />
 
-        {/* Play Icon Hint */}
+        {/* Play/Pause Icon Hint */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none group-hover:scale-125 transition-transform duration-700">
           <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40">
-            <Play size={24} className="text-white fill-white translate-x-0.5" />
+            {isPlaying ? (
+              <Pause size={24} className="text-white fill-white" />
+            ) : (
+              <Play size={24} className="text-white fill-white translate-x-0.5" />
+            )}
           </div>
         </div>
 
@@ -97,9 +108,14 @@ function VideoCard({ item, onClick }) {
 
 // Main component
 export default function ExploreAndBuy() {
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleItemClick = (prod, videoUrl) => {
+    navigate(`/product/${prod._id}`, { state: { fallbackVideo: videoUrl } });
+  };
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -156,7 +172,11 @@ export default function ExploreAndBuy() {
           ) : (
             <Slider {...settings}>
               {items.map((item, index) => (
-                <VideoCard key={item._id || index} item={item} onClick={setSelectedItem} />
+                <VideoCard 
+                  key={item._id || index} 
+                  item={item} 
+                  onClick={(prod) => handleItemClick(prod, item.videoUrl)} 
+                />
               ))}
             </Slider>
           )}
@@ -167,6 +187,7 @@ export default function ExploreAndBuy() {
         isOpen={!!selectedItem}
         onClose={() => setSelectedItem(null)}
         product={selectedItem}
+        fallbackVideo={items.find(it => it.productId?._id === selectedItem?._id)?.videoUrl}
       />
     </section>
   );

@@ -1,11 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { ShoppingBag, Heart, ShieldCheck, Truck, RotateCcw, Star, Plus, Minus, Share2, Play } from "lucide-react";
 
 export default function ProductDetails({ product }) {
+  const location = useLocation();
+  const fallbackVideo = location.state?.fallbackVideo;
+
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
-  const [activeMedia, setActiveMedia] = useState(product?.media?.[0] || null);
+  const [activeMedia, setActiveMedia] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
+
+  useEffect(() => {
+    if (product) {
+      let mediaList = [...(product.media || [])];
+      if (fallbackVideo && !mediaList.some(m => m.url === fallbackVideo)) {
+        mediaList.unshift({
+          url: fallbackVideo,
+          type: 'video',
+          public_id: 'visual-shop-video'
+        });
+      }
+      product.mediaList = mediaList;
+      setActiveMedia(mediaList[0] || null);
+      setSelectedSize("");
+      setSelectedColor(null);
+      setQuantity(1);
+    }
+  }, [product, fallbackVideo]);
 
   if (!product) return null;
 
@@ -49,7 +71,7 @@ export default function ProductDetails({ product }) {
 
             {/* Thumbnails */}
             <div className="grid grid-cols-4 sm:grid-cols-5 gap-4">
-              {product.media?.map((m, i) => (
+              {(product.mediaList || product.media || []).map((m, i) => (
                 <div
                   key={m._id || i}
                   onClick={() => setActiveMedia(m)}
