@@ -5,7 +5,7 @@ import ExploreAndBuy from '../components/home/ExploreAndBuy';
 import SuitSet from '../components/home/SuitSet';
 import LuxeSet from '../components/home/LuxeSet';
 import Features from '../components/home/Features';
-import HappyCustomers from '../components/home/HappyCustomers';
+import HappyCust from '../components/home/HappyCustomers';
 
 const Home = () => {
   return (
