@@ -38,7 +38,7 @@ const SuitSetEditionManagement = () => {
     stock: 0,
   });
 
-
+  const [currentColor, setCurrentColor] = useState({ name: '', code: '#000000' });
 
   // For Sizes UI
   const availableSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL', 'Free Size', 'Custom'];
@@ -48,7 +48,7 @@ const SuitSetEditionManagement = () => {
     "#000000": "Black",
     "#ffffff": "White",
     "#ff0000": "Red",
-    
+    "#00ff00": "Lime",
     "#0000ff": "Blue",
     "#ffff00": "Yellow",
     "#00ffff": "Cyan",
