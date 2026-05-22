@@ -1,114 +1,78 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   
-  /* Premium Palette */
-  --color-primary-gold: #b89e70;
-  --color-primary-gold-dark: #8e7954;
-  --color-premium-teal: #2C4A52;
-  --color-premium-dark: #0f172a;
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
+
+  --color-surface-50: #f8fafc;
+  --color-surface-100: #f1f5f9;
+  --color-surface-200: #e2e8f0;
+  --color-surface-300: #cbd5e1;
+  --color-surface-400: #94a3b8;
+  --color-surface-500: #64748b;
+  --color-surface-600: #475569;
+  --color-surface-700: #334155;
+  --color-surface-800: #1e293b;
+  --color-surface-900: #0f172a;
 }
 
 @layer base {
-  body {
-    @apply antialiased bg-white;
-    color: #1e293b;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  html {
+    @apply antialiased scroll-smooth;
   }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
-    color: var(--color-premium-dark);
+  
+  body {
+    @apply bg-surface-50 text-surface-900 font-sans;
   }
 }
 
 @layer components {
-  .container-custom {
-    @apply max-w-7xl mx-auto px-4;
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-white/20;
   }
-  @media (min-width: 640px) { .container-custom { padding-left: 1.5rem; padding-right: 1.5rem; } }
-  @media (min-width: 1024px) { .container-custom { padding-left: 2rem; padding-right: 2rem; } }
-
-  .btn-premium {
-    @apply relative overflow-hidden inline-flex items-center justify-center px-8 py-3 
-           bg-(--color-premium-dark) text-white font-semibold transition-all duration-300;
-    box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.1);
-  }
-  .btn-premium:hover { background-color: rgba(15, 23, 42, 0.9); }
-  .btn-premium:active { transform: scale(0.95); }
-
-  .btn-outline {
-    @apply inline-flex items-center justify-center px-8 py-3 border-2 font-semibold transition-all duration-300;
-    border-color: var(--color-premium-dark);
-    color: var(--color-premium-dark);
-  }
-  .btn-outline:hover {
-    background-color: var(--color-premium-dark);
-    color: white;
+  
+  .card-premium {
+    @apply bg-white rounded-2xl border border-surface-200 shadow-sm hover:shadow-md transition-shadow duration-300;
   }
 
-  .card-hover-effect {
-    @apply transition-all duration-500;
-  }
-  .card-hover-effect:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-xl transition-all active:scale-95 shadow-lg shadow-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  /* Custom animations */
-  .animate-premium-fade {
-    animation: premiumFade 0.6s ease-out forwards;
+  .sidebar-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200;
   }
 
-  @keyframes premiumFade {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+  .sidebar-link-active {
+    @apply bg-primary-50 text-primary-600 shadow-sm;
   }
 
-  /* Custom Slick Slider overrides */
-  .slick-dots {
-    bottom: 32px !important;
-    display: flex !important;
-    justify-content: center !important;
-    gap: 8px !important;
-  }
-
-  .slick-dots li {
-    margin: 0 !important;
-    width: auto !important;
-    height: auto !important;
-  }
-
-  .slick-dots li button {
-    width: 8px !important;
-    height: 8px !important;
-    border-radius: 9999px !important;
-    background-color: rgba(255, 255, 255, 0.4) !important;
-    border: none !important;
-    padding: 0 !important;
-    transition: all 0.3s ease !important;
-  }
-  .slick-dots li button:before { display: none !important; }
-
-  .slick-dots li.slick-active button {
-    width: 40px !important;
-    background-color: white !important;
+  .sidebar-link-inactive {
+    @apply text-surface-500 hover:text-surface-900 hover:bg-surface-100;
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  
-  .glass {
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
 
-  .text-glow {
-    text-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-surface-300 rounded-full hover:bg-surface-400;
 }
