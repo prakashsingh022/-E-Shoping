@@ -38,10 +38,7 @@ const OrderList = () => {
           <p className="text-surface-500 text-sm mt-1">Track and manage all customer purchases.</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-surface-200 rounded-xl text-sm font-semibold text-surface-700 hover:bg-surface-50 transition-all shadow-sm">
-            <Calendar size={18} className="text-surface-400" />
-            Last 30 Days
-          </button>
+         
           <button className="btn-primary flex items-center gap-2">
             <Download size={18} />
             Export CSV
@@ -60,10 +57,7 @@ const OrderList = () => {
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-surface-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all shadow-sm"
           />
         </div>
-        <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-surface-200 rounded-xl text-sm font-semibold text-surface-700 hover:bg-surface-50 transition-all shadow-sm">
-          <Filter size={18} className="text-surface-400" />
-          Filter Status
-        </button>
+       
       </div>
 
       <div className="card-premium overflow-hidden">
