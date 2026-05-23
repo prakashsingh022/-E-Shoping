@@ -294,7 +294,7 @@ const AdminDashboard = () => {
                       <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all">
                           <ShoppingCart size={20} />
                       </div>
-                      <span className="font-bold text-sm text-surface-700">View Orders</span>
+                      
                     </Link>
                   )}
                   {hasPermission('manage_admins') && (
@@ -302,7 +302,7 @@ const AdminDashboard = () => {
                       <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all">
                           <ShieldCheck size={20} />
                       </div>
-                      <span className="font-bold text-sm text-surface-700">Manage Admins</span>
+                     
                     </Link>
                   )}
               </div>
