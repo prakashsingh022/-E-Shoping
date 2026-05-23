@@ -179,7 +179,9 @@ const CategoryManagement = () => {
           <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
             <div className="px-6 py-4 border-b border-surface-100 flex items-center justify-between">
               <h3 className="text-lg font-bold text-surface-900">{editingId ? 'Edit Category' : 'Create New Category'}</h3>
-              
+              <button onClick={() => setShowModal(false)} className="p-2 hover:bg-surface-50 rounded-lg text-surface-400">
+                <X size={20} />
+              </button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-5">
               <div>
@@ -193,7 +195,16 @@ const CategoryManagement = () => {
                   placeholder="e.g. Suit Sets"
                 />
               </div>
-              
+              <div>
+                <label className="text-xs font-bold text-surface-400 uppercase tracking-widest mb-2 block pl-1">Description (Optional)</label>
+                <textarea 
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-3 bg-surface-50 border border-surface-200 rounded-xl text-sm focus:border-primary-500 transition-all resize-none"
+                  placeholder="Tell us about this collection..."
+                ></textarea>
+              </div>
               <div>
                 <label className="text-xs font-bold text-surface-400 uppercase tracking-widest mb-2 block pl-1">Display Image</label>
                 <div 

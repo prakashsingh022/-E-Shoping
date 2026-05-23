@@ -26,20 +26,7 @@ const AddProduct = () => {
   const searchParams = new URLSearchParams(location.search);
   const defaultCategory = searchParams.get('category') || '';
 
-  const [formData, setFormData] = useState({
-    name: '',
-    price: '',
-    salePrice: '',
-    media: [],
-    category: defaultCategory,
-    description: '',
-    stock: '',
-    sizes: [],
-    colors: [],
-    colors: [],
-    fabric: '',
-    section: '',
-  });
+  
 
   const [currentColor, setCurrentColor] = useState({ name: '', code: '#000000' });
 
@@ -178,10 +165,10 @@ const AddProduct = () => {
     setCurrentColor({ name, code: codeValue });
   };
 
-  const [categories, setCategories] = useState([]);
+  
 
   // For Sizes UI
-  const availableSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL', 'Free Size', 'Custom'];
+ 
   
   const handleSizeToggle = (size) => {
     setFormData(prev => ({
