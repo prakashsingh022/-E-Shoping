@@ -135,14 +135,7 @@ const ActivityLogs = () => {
                       {log.action.replace(/_/g, ' ')}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-start gap-2 max-w-md">
-                        <Database size={14} className="text-surface-300 mt-1 flex-shrink-0" />
-                        <p className="text-sm text-surface-600 leading-relaxed font-medium">
-                            {log.details}
-                        </p>
-                    </div>
-                  </td>
+                  
                   <td className="px-6 py-4 text-right">
                      <span className="text-[10px] font-mono font-bold text-surface-400 bg-surface-50 px-2 py-1 rounded border border-surface-100">
                         {log.ip || '0.0.0.0'}
@@ -152,12 +145,7 @@ const ActivityLogs = () => {
               ))}
               {!loading && filteredLogs.length === 0 && (
                   <tr>
-                      <td colSpan={5} className="px-6 py-20 text-center">
-                          <div className="flex flex-col items-center gap-3">
-                            <FileText size={48} className="text-surface-100" />
-                            <p className="text-surface-400 font-medium">No activity records found matching your search.</p>
-                          </div>
-                      </td>
+                      
                   </tr>
               )}
             </tbody>
