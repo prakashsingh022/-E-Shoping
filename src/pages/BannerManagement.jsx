@@ -214,8 +214,7 @@ const BannerManagement = () => {
                 />
               </div>
               <div>
-                
-                
+                <label className="text-xs font-bold text-surface-400 uppercase tracking-widest mb-2 block pl-1">Target Link</label>
                 <div className="relative">
                   <LinkIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400" />
                   <input 

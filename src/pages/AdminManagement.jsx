@@ -264,7 +264,13 @@ const AdminManagement = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              
+              <div>
+                <label className="text-xs font-bold text-surface-400 uppercase tracking-widest pl-1 mb-1.5 block">Full Name</label>
+                <div className="relative">
+                  <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400" />
+                  <input type="text" name="name" required value={formData.name} onChange={handleInputChange} className="w-full pl-10 pr-4 py-2.5 bg-surface-50 border border-surface-200 rounded-xl text-sm focus:border-primary-500 transition-all" />
+                </div>
+              </div>
 
               <div>
                 <label className="text-xs font-bold text-surface-400 uppercase tracking-widest pl-1 mb-1.5 block">Email Address</label>
