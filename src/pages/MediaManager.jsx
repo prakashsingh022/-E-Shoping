@@ -120,7 +120,12 @@ const MediaManager = () => {
                 >
                   <ExternalLink size={18} />
                 </a>
-                
+                <button 
+                  onClick={() => handleDelete(item._id)}
+                  className="p-2 bg-white/20 backdrop-blur-md rounded-lg text-white hover:bg-red-500 hover:text-white transition-all"
+                >
+                  <Trash2 size={18} />
+                </button>
              </div>
              <p className="text-[10px] text-white font-bold text-center break-all line-clamp-2">{item.name}</p>
           </div>

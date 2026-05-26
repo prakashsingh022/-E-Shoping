@@ -100,23 +100,10 @@ export const allProducts = [
 
   // TIE DYE
   {
-    id: 11,
-    name: "Purple Radiance Tie-Dye",
-    image: "/Images/Purple.jpg",
-    priceBefore: 3999,
-    priceAfter: 2999,
-    category: "Tie Dye",
-    description: "Gorgeous purple suit set with tie-dye patterns."
+   
   },
-  {
-    id: 12,
-    name: "Voilet Cotton Set",
-    image: "/Images/voilet.jpg",
-    priceBefore: 2199,
-    priceAfter: 1759,
-    category: "Tie Dye",
-    description: "Comfortable violet cotton kurta with dupatta."
-  },
+  
+   
 
   // SALE
   {
