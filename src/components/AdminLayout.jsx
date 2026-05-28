@@ -35,11 +35,7 @@ const AdminLayout = () => {
       <div className="flex-1 flex flex-col min-w-0">
         <Navbar toggleMobileSidebar={toggleMobileSidebar} />
         
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
-          <div className="max-w-7xl mx-auto">
-            <Outlet />
-          </div>
-        </main>
+        
       </div>
     </div>
   );

@@ -43,7 +43,13 @@ export const reviews = [
     comment: "Product exceeded my expectations.",
     image: "/Images/Yellow.jpg"
   },
-  
+  {
+    id: 5,
+    name: "payal",
+    rating: 5,
+    comment: "Fantastic support team!",
+    image: "/Images/yellow-cotton.jpg"
+  }
 ];
 
 export const footerData = {
